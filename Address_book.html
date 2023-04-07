@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Address Book Manager</title>
+</head>
+
+<body>
+  <h1>Address Book Manager</h1>
+  <script>
+    // Define an empty array to store the contacts
+    let contacts = [];
+
+    // Function to add a contact
+    function addContact(name, mobile) {
+      // Check if mobile number already exists
+      if (contacts.some(contact => contact.mobile === mobile)) {
+        console.log(`Contact with mobile number ${mobile} already exists!`);
+        return;
+      }
+
+      // Add the contact to the array
+      contacts.push({ name, mobile });
+      console.log(`Contact added: ${name} - ${mobile}`);
+    }
+
+    // Function to view all contacts in ascending order of name
+    function viewContacts() {
+      // Sort contacts by name
+      const sortedContacts = contacts.sort((a, b) => a.name.localeCompare(b.name));
+
+      // Log the sorted contacts
+      console.log("All Contacts:");
+      sortedContacts.forEach(contact => console.log(`${contact.name} - ${contact.mobile}`));
+    }
+
+    // Function to filter contacts by name or mobile number
+    function filterContacts(searchTerm) {
+      // Filter contacts by name or mobile number
+      const filteredContacts = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        contact.mobile.includes(searchTerm)
+      );
+
+      // Log the filtered contacts
+      console.log(`Filtered contacts (${searchTerm}):`);
+      filteredContacts.forEach(contact => console.log(`${contact.name} - ${contact.mobile}`));
+    }
+
+    // Function to edit a contact
+    function editContact(mobile, newName, newMobile) {
+      // Find the contact with the given mobile number
+      const contactIndex = contacts.findIndex(contact => contact.mobile === mobile);
+
+      // Check if contact exists
+      if (contactIndex === -1) {
+        console.log(`Contact with mobile number ${mobile} not found!`);
+        return;
+      }
+
+      // Check if new mobile number already exists
+      if (newMobile && contacts.some(contact => contact.mobile === newMobile && contact.mobile !== mobile)) {
+        console.log(`Contact with mobile number ${newMobile} already exists!`);
+        return;
+      }
+
+      // Update the contact's name and/or mobile number
+      contacts[contactIndex].name = newName || contacts[contactIndex].name;
+      contacts[contactIndex].mobile = newMobile || contacts[contactIndex].mobile;
+
+      console.log(`Contact updated: ${contacts[contactIndex].name} - ${contacts[contactIndex].mobile}`);
+    }
+
+    // Function to delete a contact
+    function deleteContact(mobile) {
+      // Find the contact with the given mobile number
+      const contactIndex = contacts.findIndex(contact => contact.mobile === mobile);
+
+      // Check if contact exists
+      if (contactIndex === -1) {
+        console.log(`Contact with mobile number ${mobile} not found!`);
+        return;
+      }
+
+      // Remove the contact from the array
+      const deletedContact = contacts.splice(contactIndex, 1)[0];
+      console.log(`Contact deleted: ${deletedContact.name} - ${deletedContact.mobile}`);
+    }
+
+  </script>
+</body>
+
+</html>
